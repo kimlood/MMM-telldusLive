@@ -1,0 +1,24 @@
+{
+  "name": "MMM-telldusLive",
+  "version": "1.0.0",
+  "description": "A telldus Live integration for the Magic Mirror.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kimlood/MMM-telldusLive"
+  },
+  "keywords": [
+    "magic mirror",
+    "smart mirror",
+    "Telldus Live",
+    "module"
+  ],
+  "author": "Kim Lood",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kimlood/MMM-telldusLive/issues"
+  },
+  "homepage": "https://github.com/kimlood/MMM-telldusLive#readme",
+  "dependencies": {
+    "telldus-live: "^0.2.1"
+  }
+}
