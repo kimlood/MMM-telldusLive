@@ -1,42 +1,45 @@
-# Module: Hello World
-The `helloworld` module is one of the default modules of the MagicMirror. It is a simple way to display a static text on the mirror.
+# MMM-telldusLive
+Magic Mirror Module for displaying device information from Telldus Lice account
+
+### The module displays the device status from your Telldus Live account
+For now, only the status of on or off i displayed. 
+
+Before Starting
+---------------
+You will need a Telldus Live account and OAuth tokens:
+
+- To get a Telldus Live account, go to [login.telldus.com](https://login.telldus.com)
+
+- Once you have a Telldus Live account, go to [api.telldus.com](http://api.telldus.com/keys/index) and _Generate a private token for my user only_.
+
+
+## Installation
+
+In your terminal, go to your MagicMirror's Module folder:
+````
+cd ~/MagicMirror/modules
+````
+
+Clone this repository:
+````
+git clone https://github.com/kimlood/MMM-telldusLive.git
+````
+
+Configure the module in your `config/config.js` file.
+
 ## Using the module
 
 To use this module, add it to the modules array in the `config/config.js` file:
 ````javascript
 modules: [
-	{
-		module: 'helloworld',
-		position: 'bottom_bar',	// This can be any of the regions.
-		config: {
-			// See 'Configuration options' for more information.
-			text: 'Hello world!'
-		}
-	}
+			module: 'MMM-telldusLive',
+			header: 'My Home',
+			position: 'top_right', 
+			config: {
+				publicKey: '<public_key>', 
+				privateKey: '<private_key>', 
+				token: '<token>', 
+				tokenSecret: '<token_secret>' 
+			}
 ]
 ````
-
-## Configuration options
-
-The following properties can be configured:
-
-
-<table width="100%">
-	<!-- why, markdown... -->
-	<thead>
-		<tr>
-			<th>Option</th>
-			<th width="100%">Description</th>
-		</tr>
-	<thead>
-	<tbody>
-
-		<tr>
-			<td><code>text</code></td>
-			<td>The text to display.<br>
-				<br><b>Example:</b> <code>'Hello world!'</code>
-				<br><b>Default value:</b> <code>'Hello world!'</code>
-			</td>
-		</tr>
-	</tbody>
-</table>
