@@ -1,7 +1,5 @@
 # MMM-telldusLive
-Magic Mirror Module for displaying device information from Telldus Lice account
-
-### The module displays the device status from your Telldus Live account
+Magic Mirror Module that displays the device status from your Telldus Live account
 For now, only the status of on or off i displayed. 
 
 Before Starting
@@ -25,6 +23,12 @@ Clone this repository:
 git clone https://github.com/kimlood/MMM-telldusLive.git
 ````
 
+Navigate into to the folder and execute npm to install the node dependencies. 
+````
+npm install
+````
+
+
 Configure the module in your `config/config.js` file.
 
 ## Using the module
@@ -43,3 +47,6 @@ modules: [
 			}
 ]
 ````
+
+## Dependencies
+- [telldus-live](https://github.com/TheThingSystem/node-telldus-live) (installed via `npm install`)
