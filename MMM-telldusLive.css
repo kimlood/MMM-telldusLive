@@ -1,0 +1,27 @@
+.MMM-telldusLive table {
+	margin: 3px;
+	padding: 3px;
+	text-align: left;
+}
+.MMM-telldusLive table td {
+	margin: 0px;
+	padding: 2px;
+	position: relative;
+}
+
+.MMM-telldusLive .fa_with_bg{ 
+    color: 	#FFFACD; 
+}
+
+.MMM-telldusLive .symbol {
+  padding-left: 0;
+  padding-right: 10px;
+  font-size: 20px;
+}
+
+.MMM-telldusLive .symbol span {
+  display: inline-block;
+  -ms-transform: translate(0, 2px); /* IE 9 */
+  -webkit-transform: translate(0, 2px); /* Safari */
+  transform: translate(0, 2px);
+}
