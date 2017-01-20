@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/kimlood/MMM-telldusLive#readme",
   "dependencies": {
-    "telldus-live: "^0.2.1"
+    "telldus-live": "^0.2.1"
   }
 }
