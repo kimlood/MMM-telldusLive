@@ -1,4 +1,4 @@
-var TelldusAPI = require("./telldus-live.js");
+var TelldusAPI = require("./node_modules/telldus-live/telldus-live.js");
 
 module.exports = NodeHelper.create({
 	// Subclass start method.
