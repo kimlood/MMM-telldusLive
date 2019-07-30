@@ -31,7 +31,8 @@ Module.register("MMM-telldusLive", {
     socketNotificationReceived: function (notification, payload) {
 
         if (notification === "STATUS") {
-            this.status = payload;
+            this.status.devices = payload[0];
+            this.status.sensors = payload[1];
             this.loading = false;
             this.updateDom();
         }
@@ -54,10 +55,13 @@ Module.register("MMM-telldusLive", {
         }
         console.log("Update mirror with telldus data");
 
+        var container = document.createElement("div");
+
+        // Devices
         var tableWrapper = document.createElement("table");
         tableWrapper.className = "small";
 
-        for (var i = 0; i < this.status.length; i++) {
+        for (var i = 0; i < this.status.devices.length; i++) {
 
             var tr = document.createElement("tr");
             tr.className = "normal";
@@ -67,7 +71,7 @@ Module.register("MMM-telldusLive", {
 
             var symbol = document.createElement("span");
 
-            if (this.status[i].status === "on") {
+            if (this.status.devices[i].status === "on") {
                 symbol.className = "fa fa-toggle-on fa_with_bg";
             } else {
                 symbol.className = "fa fa-toggle-off";
@@ -78,12 +82,48 @@ Module.register("MMM-telldusLive", {
 
             var deviceCell = document.createElement("td");
             deviceCell.className = "title small light";
-            deviceCell.innerHTML = this.status[i].name;
+            deviceCell.innerHTML = this.status.devices[i].name;
             tr.appendChild(deviceCell);
 
             tableWrapper.appendChild(tr);
         }
 
-        return tableWrapper;
+        container.appendChild(tableWrapper);
+
+        // Sensors
+        if (this.status.sensors != null && this.status.sensors.length) {
+            var sensorTableWrapper = document.createElement("table");
+            sensorTableWrapper.className = "small";
+
+            _.each(this.status.sensors, function (sensor) {
+                var sensorTr = document.createElement("tr");
+                sensorTr.className = "normal";
+
+                var sensorNameCell = document.createElement("td");
+                sensorNameCell.innerHTML = sensor.name;
+
+                sensorTr.appendChild(sensorNameCell);
+                sensorTableWrapper.appendChild(sensorTr);
+                
+                _.each(sensor.data, function (data) {
+                    var sensorDataTr = document.createElement("tr");
+                    var sensorDataTd = document.createElement("td");
+                    sensorDataTd.innerHTML = data.name + ": " + data.value + " " + data.unit;
+                    sensorDataTr.appendChild(sensorDataTd);
+                    
+                    sensorTableWrapper.appendChild(sensorDataTr);
+                });
+
+                var emptyLineTr = document.createElement("tr");
+                var emptyLineTd = document.createElement("td");
+                emptyLineTd.innerHTML = "&nbsp;";
+                emptyLineTr.appendChild(emptyLineTd);
+                sensorTableWrapper.appendChild(emptyLineTr);
+            });
+
+            container.appendChild(sensorTableWrapper);
+        }
+        
+        return container;
     }
 });

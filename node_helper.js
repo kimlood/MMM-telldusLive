@@ -44,18 +44,37 @@ module.exports = NodeHelper.create({
             }
    
             // Get list of all devices. Use async call to avoid blocking
-            cloud.getDevices(function (err, devices) {
+            var devicesPromise = cloud.getDevices(function (err, devices) {
                 if (!!err) {
                     return console.log('getDevices: ' + err.message);
                 }
-                allDev = [];
+                
+                var allDevices = [];
                 for (var i = 0; i < devices.length; i++) {
-                    allDev.push({id: devices[i].id, name: devices[i].name, status: devices[i].status});
+                    allDevices.push({id: devices[i].id, name: devices[i].name, status: devices[i].status});
+                }
+                
+                return allDevices;
+            });
+
+            // Get all sensors
+            var sensorsPromise = cloud.getSensors({includeValues: 1, includeScale: 1, includeUnit: 1}, function(err, sensors) {
+                if (!!err){
+                    return console.log('getSensors: ' + err.message);   
                 }
 
-                self.sendSocketNotification('STATUS', allDev);
+                var allSensors = [];
+                _.each(sensors, function (sensor) {
+                    allSensors.push({id: sensor.id, name: sensor.name, data: sensor.data});
+                });
+                
+                return allSensors;
+            });
 
-
+            // Reset timer for next fetch
+            Promise.all([devicesPromise, sensorsPromise]).then(function(values) {
+                self.sendSocketNotification('STATUS', values);
+                
                 setTimeout(function () {
                     self.fetchStatus();
                 }, self.config.updateInterval);
