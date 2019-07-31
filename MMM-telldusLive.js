@@ -31,8 +31,10 @@ Module.register("MMM-telldusLive", {
     socketNotificationReceived: function (notification, payload) {
 
         if (notification === "STATUS") {
-            this.status.devices = payload[0];
-            this.status.sensors = payload[1];
+            this.status = {
+                devices: payload[0], 
+                sensors: payload[1]
+            };
             this.loading = false;
             this.updateDom();
         }
@@ -95,35 +97,35 @@ Module.register("MMM-telldusLive", {
             var sensorTableWrapper = document.createElement("table");
             sensorTableWrapper.className = "small";
 
-            _.each(this.status.sensors, function (sensor) {
+            for (var i = 0; i < this.status.sensors.length; i++) {
                 var sensorTr = document.createElement("tr");
                 sensorTr.className = "normal";
 
                 var sensorNameCell = document.createElement("td");
-                sensorNameCell.innerHTML = sensor.name;
+                sensorNameCell.innerHTML = this.status.sensors[i].name;
 
                 sensorTr.appendChild(sensorNameCell);
                 sensorTableWrapper.appendChild(sensorTr);
-                
-                _.each(sensor.data, function (data) {
+
+                for(var x = 0; x < this.status.sensors[i].data.length; x++) {
                     var sensorDataTr = document.createElement("tr");
                     var sensorDataTd = document.createElement("td");
-                    sensorDataTd.innerHTML = data.name + ": " + data.value + " " + data.unit;
+                    sensorDataTd.innerHTML = this.status.sensors[i].data[x].name + ": " + this.status.sensors[i].data[x].value + " " + this.status.sensors[i].data[x].unit;
                     sensorDataTr.appendChild(sensorDataTd);
-                    
+
                     sensorTableWrapper.appendChild(sensorDataTr);
-                });
+                }
 
                 var emptyLineTr = document.createElement("tr");
                 var emptyLineTd = document.createElement("td");
                 emptyLineTd.innerHTML = "&nbsp;";
                 emptyLineTr.appendChild(emptyLineTd);
                 sensorTableWrapper.appendChild(emptyLineTr);
-            });
+            }
 
             container.appendChild(sensorTableWrapper);
         }
-        
+
         return container;
     }
 });

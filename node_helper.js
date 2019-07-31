@@ -1,5 +1,6 @@
 var TelldusAPI = require("./node_modules/telldus-live/telldus-live.js");
 const NodeHelper = require("node_helper");
+var _  = require('underscore');
 
 module.exports = NodeHelper.create({
     // Subclass start method.
@@ -42,39 +43,45 @@ module.exports = NodeHelper.create({
             if (!!err) {
                 return console.log('login error: ' + err.message);
             }
-   
+
             // Get list of all devices. Use async call to avoid blocking
-            var devicesPromise = cloud.getDevices(function (err, devices) {
-                if (!!err) {
-                    return console.log('getDevices: ' + err.message);
-                }
-                
-                var allDevices = [];
-                for (var i = 0; i < devices.length; i++) {
-                    allDevices.push({id: devices[i].id, name: devices[i].name, status: devices[i].status});
-                }
-                
-                return allDevices;
+            var devicesPromise = new Promise(function (resolve) {
+                cloud.getDevices(function (err, devices) {
+                    if (!!err) {
+                        return console.log('getDevices: ' + err.message);
+                    }
+
+                    var allDevices = [];
+
+                    for (var i = 0; i < devices.length; i++) {
+                        allDevices.push({id: devices[i].id, name: devices[i].name, status: devices[i].status});
+                    }
+                    
+                    resolve(allDevices);
+                });
             });
 
             // Get all sensors
-            var sensorsPromise = cloud.getSensors({includeValues: 1, includeScale: 1, includeUnit: 1}, function(err, sensors) {
-                if (!!err){
-                    return console.log('getSensors: ' + err.message);   
-                }
+            var sensorsPromise = new Promise(function(resolve){
+                cloud.getSensors({includeIgnored: 1, includeValues: 1, includeScale: 1, includeUnit: 1}, function(err, sensors) {
+                    if (!!err){
+                        return console.log('getSensors: ' + err.message);
+                    }
 
-                var allSensors = [];
-                _.each(sensors, function (sensor) {
-                    allSensors.push({id: sensor.id, name: sensor.name, data: sensor.data});
+                    var allSensors = [];
+
+                    _.each(sensors, function (sensor) {
+                        allSensors.push({id: sensor.id, name: sensor.name, data: sensor.data});
+                    });
+                    
+                    resolve(allSensors);
                 });
-                
-                return allSensors;
             });
 
             // Reset timer for next fetch
             Promise.all([devicesPromise, sensorsPromise]).then(function(values) {
                 self.sendSocketNotification('STATUS', values);
-                
+
                 setTimeout(function () {
                     self.fetchStatus();
                 }, self.config.updateInterval);
