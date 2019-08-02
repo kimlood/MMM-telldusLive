@@ -71,13 +71,16 @@ Option | Description
 includeIgnored|Show ignored sensors  **Default:** `0`
 showAll|Show all sensors and data  **Default:** `1`
 oneRow|Show all data behind the sensor name, on one row.
-showDataFullNames|Show full names of data, otherwise short words.  (Works only if `hideDataNames = 0`)
+showDataFullNames|Show full names of data, otherwise short words.  Works only if `hideDataNames = 0`.
 hideDataNames|`hideDataNames = 0` will display the data names ("Temperature: 21°C").  `hideDataNames = 1` will only display data values.  **Default:** `1`
 hideDataIcons|Hide icons infront of data values.
-sensorsToShow|Only works if showAll is `0`  Select which sensors and data are displayed.  Syntax:  ````
+sensorsToShow|Select which sensors and data are displayed. Works only if `showAll = 0`.
+
+#### Syntax  
+````
 sensorsToShow: [
-	{name: "Outdoor", showDataNames: 1, data: ["wdir", "temp"]}, 
-	{name: "Living room", showDataNames: 0, data: ["temp"]}
+	{name: "Outdoor", data: ["wdir", "temp"]}, 
+	{name: "Living room", data: ["temp"]}
 ]
 ````
 
