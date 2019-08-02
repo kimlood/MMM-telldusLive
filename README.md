@@ -70,11 +70,11 @@ Option | Description
 ------------ | -------------
 includeIgnored|Show ignored sensors  **Default:** `0`
 showAll|Show all sensors and data  **Default:** `1`
-oneRow|Show all data behind the sensor name, on one row.
-showDataFullNames|Show full names of data, otherwise short words.  Works only if `hideDataNames = 0`.
-hideDataNames|`hideDataNames = 0` will display the data names ("Temperature: 21°C").  `hideDataNames = 1` will only display data values.  **Default:** `1`
-hideDataIcons|Hide icons infront of data values.
-sensorsToShow|Select which sensors and data are displayed. Works only if `showAll = 0`.
+oneRow|Show all data behind the sensor name, on one row. **Default:** `0`
+showDataFullNames|Show full names of data, otherwise short words.  Works only if `hideDataNames = 0`. **Default:** `0`
+hideDataNames|`hideDataNames = 0` will display the data names ("Temperature: 21°C").  `hideDataNames = 1` will only display data values.  **Default:** `0`
+hideDataIcons|Hide icons infront of data values. **Default:** `0`
+sensorsToShow|Select which sensors and data are displayed. Works only if `showAll = 0`. **Default:** `null`
 
 #### Syntax  
 ````
