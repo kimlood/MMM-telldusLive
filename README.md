@@ -49,7 +49,10 @@ modules: [
 				sensors: {
 					includeIgnored: <bool>,
 					showAll: <bool>,
-					hideDataNames: <bool>
+					oneRow: <bool>,
+					showDataFullNames: <bool>,
+					hideDataNames: <bool>,
+					hideDataIcons: <bool>,
 					sensorsToShow: <object>
 				} 
 			}
