@@ -62,20 +62,64 @@ module.exports = NodeHelper.create({
             });
 
             // Get all sensors
-            var sensorsPromise = new Promise(function(resolve){
-                cloud.getSensors({includeIgnored: 1, includeValues: 1, includeScale: 1, includeUnit: 1}, function(err, sensors) {
-                    if (!!err){
-                        return console.log('getSensors: ' + err.message);
-                    }
-
-                    var allSensors = [];
-
-                    _.each(sensors, function (sensor) {
-                        allSensors.push({id: sensor.id, name: sensor.name, data: sensor.data});
-                    });
+            var sensorsPromise = new Promise(function(resolve) {
+                if (self.config.sensors != null) {
+                    var includeIgnored = self.config.sensors.includeIgnored != null ? self.config.sensors.includeIgnored : 0;
+                    var showAllSensors = self.config.sensors.showAll != null ? self.config.sensors.showAll : 1;
                     
-                    resolve(allSensors);
-                });
+                    cloud.getSensors({includeIgnored: includeIgnored, includeValues: 1, includeScale: 1, includeUnit: 1}, function(err, sensors) {
+                        if (!!err){
+                            return console.log('getSensors: ' + err.message);
+                        }
+
+                        var allSensors = [];
+
+                        _.each(sensors, function (sensor) {
+                            var sensorToShow = false;
+                            
+                            // Get selected sensors (sensorsToShow set in config)
+                            if (self.config.sensors.sensorsToShow != null) {
+                                var selectedDataToShow = [];
+                                
+                                sensorToShow = _.any(self.config.sensors.sensorsToShow, function(sensorToShowConfig) {
+                                    if (sensor.name != null && sensorToShowConfig.name.toLowerCase() == sensor.name.toLowerCase()) {
+                                        
+                                        // Get selected sensor data
+                                        _.each(sensor.data, function(sensorData) {
+                                            if (_.contains(sensorToShowConfig.data, sensorData.name)) {
+                                                selectedDataToShow.push(sensorData);
+                                            }
+                                        });
+                                        
+                                        // Replace data array
+                                        sensor.data = selectedDataToShow;
+                                        
+                                        // Mark sensor as selected
+                                        return true;
+                                    }
+                                });
+                            }
+                            
+                            if (sensor.data.length == 0) {
+                                console.log("Telldus, no sensor data for \"" + sensor.name + "\"");
+                            }
+                                                        
+                            // Add sensor to list
+                            if (showAllSensors || sensorToShow) {
+                                allSensors.push({id: sensor.id, name: sensor.name, data: sensor.data});
+                            }
+                        });
+                        
+                        if (allSensors.length == 0) {
+                            console.log("Telldus, could not get any sensors. Is the config correct?");
+                        }
+                        
+                        resolve(allSensors);
+                    });
+                } else {
+                    // Skip sensors
+                    resolve(null);
+                }
             });
 
             // Reset timer for next fetch

@@ -45,10 +45,51 @@ modules: [
 				publicKey: '<public_key>', 
 				privateKey: '<private_key>', 
 				token: '<token>', 
-				tokenSecret: '<token_secret>' 
+				tokenSecret: '<token_secret>',
+				sensors: {
+					includeIgnored: <bool>,
+					showAll: <bool>,
+					hideDataNames: <bool>
+					sensorsToShow: <object>
+				} 
 			}
 ]
 ````
+### Sensors
+Show sensors on the MagicMirror.
+
+#### Description
+Sensors = The actual unit (Outdoor, Living room...)
+Data = Data on the unit (temperature, wind speed...)
+
+#### Configuration options
+Option | Description
+------------ | -------------
+includeIgnored|Show ignored sensors    **Default:** `0`
+showAll|Show all sensors and data    **Default:** `1`
+oneRow|Show all data behind the sensor name, on one row.
+showDataFullNames|Show full names of data, otherwise short words.  (Works only if `hideDataNames = 0`)
+hideDataNames|`hideDataNames = 0` will display the data names ("Temperature: 21°C").  `hideDataNames = 1` will only display data values.    **Default:** `1`
+hideDataIcons|Hide icons infront of data values.
+sensorsToShow|Only works if showAll is `0`    Select which sensors and data are displayed.  
+Syntax:  
+````
+sensorsToShow: [
+	{name: "Outdoor", showDataNames: 1, data: ["wdir", "temp"]}, 
+	{name: "Living room", showDataNames: 0, data: ["temp"]}
+]
+````
+
+#### Sensor data explanation
+dewp = Dew point (sv. Daggpunkt)
+wdir = Wind direction (sv. Vindrikning)
+temp = Temperature (sv. Temperatur)
+barpress = Atmospheric pressure (sv. Lufttryck)
+humidity = Humidity (sv. Luftfuktighet)
+wavg = Wind speed, avarage (sv. Vindhastighet medel)
+wgust = Wind speed, gust (sv. Byvind)
+
+To remove sensors from the MagicMirror, simply remove the sensors-section in the config.
 
 ## Dependencies
 - [telldus-live](https://github.com/TheThingSystem/node-telldus-live) (installed via `npm install`)

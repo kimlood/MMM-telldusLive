@@ -25,3 +25,13 @@
   -webkit-transform: translate(0, 2px); /* Safari */
   transform: translate(0, 2px);
 }
+
+.MMM-telldusLive .tellduslive-sensors-table {
+  margin-top: 40px;
+}
+
+.MMM-telldusLive .tellduslive-sensors-table .icon-wrapper{
+  width: 25px;
+  display: inline-block;
+  text-align: center;
+}

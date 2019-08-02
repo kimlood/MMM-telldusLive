@@ -16,8 +16,10 @@ Module.register("MMM-telldusLive", {
         token: '',
         tokenSecret: '',
         updateInterval: 5000,
-        animationSpeed: 2.5 * 1000
+        animationSpeed: 2.5 * 1000,
+        sensors: null
     },
+
     loading: true,
 
     // Subclass getStyles method.
@@ -94,26 +96,60 @@ Module.register("MMM-telldusLive", {
 
         // Sensors
         if (this.status.sensors != null && this.status.sensors.length) {
+            var hideDataIcons = this.config.sensors.hideDataIcons != null && this.config.sensors.hideDataIcons;
+            var showDataFullNames = this.config.sensors.showDataFullNames != null && this.config.sensors.showDataFullNames;
             var sensorTableWrapper = document.createElement("table");
-            sensorTableWrapper.className = "small";
+            sensorTableWrapper.className = "small tellduslive-sensors-table";
 
             for (var i = 0; i < this.status.sensors.length; i++) {
                 var sensorTr = document.createElement("tr");
                 sensorTr.className = "normal";
 
-                var sensorNameCell = document.createElement("td");
-                sensorNameCell.innerHTML = this.status.sensors[i].name;
+                var sensorTd = document.createElement("td");
+                sensorTd.innerHTML = this.status.sensors[i].name;
 
-                sensorTr.appendChild(sensorNameCell);
+                sensorTr.appendChild(sensorTd);
                 sensorTableWrapper.appendChild(sensorTr);
 
                 for(var x = 0; x < this.status.sensors[i].data.length; x++) {
-                    var sensorDataTr = document.createElement("tr");
-                    var sensorDataTd = document.createElement("td");
-                    sensorDataTd.innerHTML = this.status.sensors[i].data[x].name + ": " + this.status.sensors[i].data[x].value + " " + this.status.sensors[i].data[x].unit;
-                    sensorDataTr.appendChild(sensorDataTd);
+                    var icon = "";
+                        
+                    // Config hide data icons
+                    if (!hideDataIcons) {
+                        icon = '<span class="icon-wrapper"><i class="fa ' + this.getDataIcon(this.status.sensors[i].data[x].name) + '"></i></span> ';
+                    }
+                    
+                    // Config show data full name
+                    if (showDataFullNames) {
+                        this.status.sensors[i].data[x].name = this.getDataFullName(this.status.sensors[i].data[x].name);
+                    }
+                    
+                    // Get wind direction cardinal point
+                    if (this.status.sensors[i].data[x].name == "wdir" && Number(this.status.sensors[i].data[x].value)) {
+                        this.status.sensors[i].data[x].value = this.getCardinal(this.status.sensors[i].data[x].value);
+                    }
+                    
+                    // Config hide data names
+                    var dataName = this.config.sensors.hideDataNames != null && this.config.sensors.hideDataNames ? "" : this.status.sensors[i].data[x].name + ": ";
+                    
+                    var dataValue = dataName + "<span class='light'>" + this.status.sensors[i].data[x].value + " " + this.status.sensors[i].data[x].unit + "</span>";
+                    
+                    // One row
+                    if (this.config.sensors.oneRow) {
+                        var dataSpan = document.createElement("span");
+                        dataSpan.innerHTML = " - " + icon + dataValue;
+                        sensorTd.appendChild(dataSpan);
+                    } 
+                    // Multi rows
+                    else {
+                        var sensorDataTr = document.createElement("tr");
+                        var sensorDataTd = document.createElement("td");
+                        
+                        sensorDataTd.innerHTML = icon + dataValue;
+                        sensorDataTr.appendChild(sensorDataTd);
 
-                    sensorTableWrapper.appendChild(sensorDataTr);
+                        sensorTableWrapper.appendChild(sensorDataTr);
+                    }
                 }
 
                 var emptyLineTr = document.createElement("tr");
@@ -127,5 +163,90 @@ Module.register("MMM-telldusLive", {
         }
 
         return container;
-    }
-});
+    },
+    getDataIcon: function (dataName) {
+        switch(dataName) {
+            case "dewp":
+                return "fa-temperature-low";
+            case "wdir":
+                return "fa-compass";
+            case "temp":
+                return "fa-thermometer-half";
+            case "barpress":
+                return "fa-tachometer-alt";
+            case "humidity":
+                return "fa-tint";
+            case "wavg":
+                return "fa-wind";
+            case "wgust":
+                return "fa-wind";
+            default:
+                return "fa-satellite-dish";
+        }  
+    },
+    getDataFullName: function (dataName) {
+        switch(dataName) {
+            case "dewp":
+                return "Dew point";
+            case "wdir":
+                return "Wind direction";
+            case "temp":
+                return "Temperature";
+            case "barpress":
+                return "Atmospheric pressure";
+            case "humidity":
+                return "Humidity";
+            case "wavg":
+                return "Wind speed, avarage";
+            case "wgust":
+                return "Wind speed, gust";
+            default:
+                return "Other";
+        }
+    },
+    // Get cardinal direction from angle (https://gist.github.com/basarat/4670200)
+    getCardinal: function (angle) {
+        var directions = 8;
+        
+        var degree = 360 / directions;
+        angle = angle + degree/2;
+        
+        if (angle >= 0 * degree && angle < 1 * degree) {
+            return "N";
+        }
+        
+        if (angle >= 1 * degree && angle < 2 * degree) {
+            return "NE";
+        }
+        
+        if (angle >= 2 * degree && angle < 3 * degree) {
+            return "E";
+        }
+        
+        if (angle >= 3 * degree && angle < 4 * degree) {
+            return "SE";
+        }
+        
+        if (angle >= 4 * degree && angle < 5 * degree) {
+            return "S";
+        }
+        
+        if (angle >= 5 * degree && angle < 6 * degree) {
+            return "SW";
+        }
+        
+        if (angle >= 6 * degree && angle < 7 * degree) {
+            return "W";
+        }
+        
+        if (angle >= 7 * degree && angle < 8 * degree) {
+            return "NW";
+        }
+
+        return "N";
+    } 
+});     
+        
+        
+        
+        
