@@ -62,19 +62,19 @@ modules: [
 Show sensors on the MagicMirror.
 
 #### Description
-Sensors = The actual unit (Outdoor, Living room...)
+Sensors = The actual unit (Outdoor, Living room...)  
 Data = Data on the unit (temperature, wind speed...)
 
 #### Configuration options
 Option | Description
 ------------ | -------------
-includeIgnored|Show ignored sensors    **Default:** `0`
-showAll|Show all sensors and data    **Default:** `1`
+includeIgnored|Show ignored sensors  **Default:** `0`
+showAll|Show all sensors and data  **Default:** `1`
 oneRow|Show all data behind the sensor name, on one row.
 showDataFullNames|Show full names of data, otherwise short words.  (Works only if `hideDataNames = 0`)
-hideDataNames|`hideDataNames = 0` will display the data names ("Temperature: 21°C").  `hideDataNames = 1` will only display data values.    **Default:** `1`
+hideDataNames|`hideDataNames = 0` will display the data names ("Temperature: 21°C").  `hideDataNames = 1` will only display data values.  **Default:** `1`
 hideDataIcons|Hide icons infront of data values.
-sensorsToShow|Only works if showAll is `0`    Select which sensors and data are displayed.  
+sensorsToShow|Only works if showAll is `0`  Select which sensors and data are displayed.  
 Syntax:  
 ````
 sensorsToShow: [
