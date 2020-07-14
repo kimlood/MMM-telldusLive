@@ -1,6 +1,7 @@
 var TelldusAPI = require("./node_modules/telldus-live/telldus-live.js");
 const NodeHelper = require("node_helper");
 var _  = require('underscore');
+require('tls').DEFAULT_MIN_VERSION = 'TLSv1';
 
 module.exports = NodeHelper.create({
     // Subclass start method.
