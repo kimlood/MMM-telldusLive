@@ -1,0 +1,12 @@
+{
+    "CONFIG_MISSING": "Config Missing",
+    "LOADING": "Loading",
+    "DEW_POINT": "Dew Point",
+    "WIND_DIRECTION": "Wind Direction",
+    "TEMPERATURE": "Temperature",
+    "ATMOSPERIC_PRESSURE": "Atmosperic Pressure",
+    "HUMIDITY": "Humidity",
+    "WIND_SPEED_AVARAGE": "Wind Speed, Avarage",
+    "WIND_SPEED_GUST": "Wind Speed, Gust",
+    "OTHER": "Other"
+}

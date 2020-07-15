@@ -1,0 +1,12 @@
+{
+    "CONFIG_MISSING": "Config Saknas",
+    "LOADING": "Laddar",
+    "DEW_POINT": "Daggpunkt",
+    "WIND_DIRECTION": "Vindriktning",
+    "TEMPERATURE": "Temperatur",
+    "ATMOSPERIC_PRESSURE": "Atmosfärstryck",
+    "HUMIDITY": "Luftfuktighet",
+    "WIND_SPEED_AVARAGE": "Vindhastighet, genomsnitt",
+    "WIND_SPEED_GUST": "Vindhastighet, byvind",
+    "OTHER": "Övrig"
+}
