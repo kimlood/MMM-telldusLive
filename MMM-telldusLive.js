@@ -22,6 +22,13 @@ Module.register("MMM-telldusLive", {
 
     loading: true,
 
+    getTranslations: function() {
+        return {
+            en: "translations/en.json",
+            sv: "translations/sv.json"
+        };
+    },
+
     // Subclass getStyles method.
     getStyles: function () {
         return ['font-awesome.css', 'MMM-telldusLive.css'];
@@ -187,21 +194,21 @@ Module.register("MMM-telldusLive", {
     getDataFullName: function (dataName) {
         switch(dataName) {
             case "dewp":
-                return "Dew point";
+                return this.translate("DEW_POINT");
             case "wdir":
-                return "Wind direction";
+                return this.translate("WIND_DIRECTION");
             case "temp":
-                return "Temperature";
+                return this.translate("TEMPERATURE");
             case "barpress":
-                return "Atmospheric pressure";
+                return this.translate("ATMOSPERIC_PRESSURE");
             case "humidity":
-                return "Humidity";
+                return this.translate("HUMIDITY");
             case "wavg":
-                return "Wind speed, avarage";
+                return this.translate("WIND_SPEED_AVARAGE");
             case "wgust":
-                return "Wind speed, gust";
+                return this.translate("WIND_SPEED_GUST");    
             default:
-                return "Other";
+                return this.translate("OTHER");
         }
     },
     // Get cardinal direction from angle (https://gist.github.com/basarat/4670200)
